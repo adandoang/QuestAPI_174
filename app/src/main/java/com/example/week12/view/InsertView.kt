@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,6 +33,7 @@ import com.example.week12.navigation.DestinasiNavigasi
 import com.example.week12.viewmodel.InsertUiEvent
 import com.example.week12.viewmodel.InsertUiState
 import com.example.week12.viewmodel.InsertViewModel
+import kotlinx.coroutines.launch
 import java.security.KeyStore.Entry
 
 object DestinasiEntry:DestinasiNavigasi{
@@ -58,7 +61,20 @@ fun EntryMhsScreen(
             )
         }
     ){ innerPadding ->
-
+        EntryBody(
+            insertUiState = viewModel.uiState,
+            onSiswaValueChange = viewModel::updateInsertMhsState,
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.insertMhs()
+                    navigateBack
+                }
+            },
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
+        )
     }
 }
 
