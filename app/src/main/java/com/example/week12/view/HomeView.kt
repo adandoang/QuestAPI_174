@@ -1,5 +1,7 @@
 package com.example.week12.view
 
+import androidx.annotation.ColorInt
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -23,7 +26,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.DrawModifier
 import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.week12.R
 import com.example.week12.model.Mahasiswa
 import com.example.week12.navigation.DestinasiNavigasi
 import kotlinx.coroutines.flow.combineTransform
@@ -32,6 +38,23 @@ import kotlin.reflect.typeOf
 object DestinasiHome : DestinasiNavigasi{
     override val route = "home"
     override val titleRes = "Home Mhs"
+}
+
+@Composable
+fun OnError(retryAction: ()->Unit, modifier: Modifier = Modifier){
+    Column (
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Image(
+            painter = painterResource(id = R.drawable.ic_connection_error), contentDescription = ""
+        )
+        Text(text = stringResource(R.string.loading_failed),modifier = Modifier.padding(16.dp))
+        Button(onClick = retryAction) {
+            Text(stringResource(R.string.retry))
+        }
+    }
 }
 
 @Composable
