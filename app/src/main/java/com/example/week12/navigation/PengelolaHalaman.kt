@@ -16,6 +16,7 @@ import com.example.week12.view.DetailScreen
 import com.example.week12.view.EntryBody
 import com.example.week12.view.EntryMhsScreen
 import com.example.week12.view.HomeScreen
+import com.example.week12.view.UpdateScreen
 
 
 @Composable
@@ -53,6 +54,17 @@ fun PengelolaHalaman(navController: NavHostController = rememberNavController())
                         popUpTo(DestinasiHome.route) { inclusive = true }
                         }
                     }
+                )
+            }
+        }
+        composable(DestinasiUpdate.routesWithArg, arguments = listOf(navArgument(DestinasiDetail.NIM){
+            type = NavType.StringType })
+        ){
+            val nim = it.arguments?.getString(DestinasiUpdate.NIM)
+            nim?.let { nim ->
+                UpdateScreen(
+                    onBack = { navController.popBackStack() },
+                    onNavigate = { navController.popBackStack() }
                 )
             }
         }
