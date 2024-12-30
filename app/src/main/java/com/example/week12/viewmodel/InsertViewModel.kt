@@ -33,7 +33,7 @@ data class InsertUiState(
     val insertUiEvent: InsertUiEvent = InsertUiEvent()
 )
 
-data class  InsertUiEvent(
+data class InsertUiEvent(
     val nim: String="",
     val nama: String="",
     val alamat: String="",
