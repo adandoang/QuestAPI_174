@@ -36,3 +36,119 @@ object DestinasiDetail: DestinasiNavigasi {
     const val NIM = "nim"
     val routesWithArg = "$route/{$NIM}"
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DetailScreen(
+    navigateBack: () -> Unit,
+    navigateToItemUpdate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: DetailViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    Scaffold(
+        topBar = {
+            CostumeTopAppBar(
+                title = DestinasiDetail.titleRes,
+                canNavigateBack = true,
+                navigateUp = navigateBack,
+                onRefresh = {
+                    viewModel.getMahasiswaByNim()
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = navigateToItemUpdate,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(18.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit Kontak"
+                )
+            }
+        }
+    ) { innerPadding ->
+        DetailStatus(
+            modifier = Modifier.padding(innerPadding),
+            detailUiState = viewModel.mahasiswaDetailState,
+            retryAction = { viewModel.getMahasiswaByNim() }
+        )
+    }
+}
+
+@Composable
+fun DetailStatus(
+    retryAction: () -> Unit,
+    modifier: Modifier = Modifier,
+    detailUiState: DetailUiState
+) {
+    when (detailUiState) {
+        is DetailUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
+        is DetailUiState.Success -> {
+            if (detailUiState.mahasiswa.nim.isEmpty()) {
+                Box(
+                    modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center
+                ) { Text("Data tidak ditemukan") }
+            } else {
+                ItemDetailMhs(
+                    mahasiswa = detailUiState.mahasiswa, modifier = modifier.fillMaxWidth()
+                )
+            }
+        }
+        is DetailUiState.Error -> OnError(retryAction, modifier = modifier.fillMaxSize())
+    }
+}
+
+@Composable
+fun ItemDetailMhs(
+    modifier: Modifier = Modifier,
+    mahasiswa: Mahasiswa
+) {
+    Card(
+        modifier = modifier.padding(16.dp),
+        shape = MaterialTheme.shapes.medium,
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            ComponentDetailMhs(judul = "NIM", isinya = mahasiswa.nim)
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
+            ComponentDetailMhs(judul = "Nama", isinya = mahasiswa.nama)
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
+            ComponentDetailMhs(judul = "Alamat", isinya = mahasiswa.alamat)
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
+            ComponentDetailMhs(judul = "Jenis Kelamin", isinya = mahasiswa.jenisKelamin)
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
+            ComponentDetailMhs(judul = "Kelas", isinya = mahasiswa.kelas)
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
+            ComponentDetailMhs(judul = "Angkatan", isinya = mahasiswa.angkatan)
+        }
+    }
+}
+
+@Composable
+fun ComponentDetailMhs(
+    modifier: Modifier = Modifier,
+    judul: String,
+    isinya: String
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            text = judul,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Text(
+            text = isinya,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
