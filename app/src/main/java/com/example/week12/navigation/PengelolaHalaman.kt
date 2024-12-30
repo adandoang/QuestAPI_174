@@ -17,6 +17,7 @@ import com.example.week12.view.EntryBody
 import com.example.week12.view.EntryMhsScreen
 import com.example.week12.view.HomeScreen
 
+
 @Composable
 fun PengelolaHalaman(navController: NavHostController = rememberNavController()){
     NavHost(
@@ -27,7 +28,8 @@ fun PengelolaHalaman(navController: NavHostController = rememberNavController())
         composable(DestinasiHome.route){
             HomeScreen(
                 navigateToItemEntry = {navController.navigate(DestinasiEntry.route)},
-                onDetailClick = {
+                onDetailClick = { nim ->
+                    navController.navigate("${DestinasiDetail.route}/$nim")
                 }
             )
         }
@@ -49,7 +51,7 @@ fun PengelolaHalaman(navController: NavHostController = rememberNavController())
                     navigateToItemUpdate = { navController.navigate("${DestinasiUpdate.route}/$nim") },
                     navigateBack = { navController.navigate(DestinasiHome.route) {
                         popUpTo(DestinasiHome.route) { inclusive = true }
-                    }
+                        }
                     }
                 )
             }
