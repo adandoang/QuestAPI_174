@@ -39,7 +39,7 @@ import java.security.KeyStore.Entry
 
 object DestinasiEntry:DestinasiNavigasi{
     override val route ="item_entry"
-    override val titleRes = "Entry Mhs"
+    override val titleRes = "Insert Mahasiswa"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

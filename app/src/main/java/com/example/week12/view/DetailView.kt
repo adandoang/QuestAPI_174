@@ -41,7 +41,7 @@ import com.example.week12.viewmodel.PenyediaViewModel
 
 object DestinasiDetail: DestinasiNavigasi {
     override val route = "detail"
-    override val titleRes = "Detail Data Mahasiswa"
+    override val titleRes = "Detail Mahasiswa"
     const val NIM = "nim"
     val routesWithArg = "$route/{$NIM}"
 }

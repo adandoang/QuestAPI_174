@@ -52,7 +52,7 @@ import kotlin.reflect.typeOf
 
 object DestinasiHome : DestinasiNavigasi{
     override val route = "home"
-    override val titleRes = "Home Mhs"
+    override val titleRes = "Mahasiswa"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
